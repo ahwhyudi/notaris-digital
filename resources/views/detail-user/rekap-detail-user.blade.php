@@ -1,44 +1,57 @@
 @extends('layout')
 
 @section('content')
-    <div class="max-w-6xl mx-auto px-4 py-10">
-        <div class="bg-white shadow-md rounded-lg p-6">
-            <div class="flex justify-center">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">DIVISI : {{ strtoupper($divisi->name) }}</h2>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-8 lg:px-6">
+            <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                @foreach ($rekapUsers as $rekap)
+                        <div class="text-center text-gray-500 dark:text-gray-400">
+                            <img class="mx-auto mb-4 w-36 h-36 rounded-full"
+                                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                                alt="Bonnie Avatar">
+                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                <a href="#">{{ strtoupper($rekap->user->name )}}</a>
+                            </h3>
+                            <p>{{strtoupper($rekap->user->status)}}</p>
+                            <p>{{$rekap->ots_selesai}}</p>
+                            <p>{{$rekap->created_at->format('d-m-Y')}}</p>
+                        </div>  
+                @endforeach
             </div>
-
-            @foreach ($rekapUsers as $minggu => $items)
-                <div class="mb-8">
-                    <h4 class="text-lg font-semibold text-gray-700 mb-2">
-                        Minggu mulai {{ \Carbon\Carbon::parse($minggu)->translatedFormat('d M Y') }}
-                    </h4>
-
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 text-sm text-gray-700 border border-gray-200">
-                            <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">Nama User</th>
-                                    <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">OTS Selesai</th>
-                                    <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">Tanggal Input</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-100">
-                                @foreach ($items as $rekap)
-                                    <tr class="hover:bg-gray-50 transition">
-                                        <td class="px-6 py-4">{{ ucwords($rekap->user->name) ?? 'User tidak ditemukan' }}</td>
-                                        <td class="px-6 py-4">{{ $rekap->ots_selesai }}</td>
-                                        <td class="px-6 py-4">
-                                            {{ \Carbon\Carbon::parse($rekap->created_at)->format('d-m-Y') }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="flex justify-end mt-2">
-                            <a href="{{route('components.dashboard')}}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-200">back</a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+            <div class="flex justify-between my-4">
+                {{-- Tombol Prev --}}
+                @if ($prevDate)
+                    <a href="{{ route('detail-user.rekap-detail-user', ['id' => $divisi->id, 'date' => $prevDate]) }}"
+                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4" />
+                        </svg>
+                    </a>
+                @else
+                    <span class="px-4 py-2 bg-gray-200 rounded text-gray-400">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4" />
+                        </svg>
+                    </span>
+                @endif
+            
+                {{-- Tombol Next --}}
+                @if ($nextDate)
+                    <a href="{{ route('detail-user.rekap-detail-user', ['id' => $divisi->id, 'date' => $nextDate]) }}"
+                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+                        </svg>
+                    </a>
+                @else
+                    <span class="px-4 py-2 bg-gray-200 rounded text-gray-400">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+                        </svg>
+                    </span>
+                @endif
+            </div>
+            
         </div>
-    </div>
+    </section>
 @endsection

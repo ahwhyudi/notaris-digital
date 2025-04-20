@@ -21,4 +21,8 @@ class Divisi extends Model
     public function rekapUser(){
         return $this->hasMany(RekapUser::class);
     }
+
+    // public function getRouteKeyName(){
+    //     return 'name';
+    // }
 }

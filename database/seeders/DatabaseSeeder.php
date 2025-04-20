@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
             'swasta',
             'retail',
             'mikro',
-            'oprasional',
+            'ope    rasional',
         ];
 
         foreach($divisis as $divisi){

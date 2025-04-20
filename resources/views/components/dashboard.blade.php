@@ -1,68 +1,115 @@
 @extends('layout')
 
 @section('content')
-    <div class="max-w-6xl mx-auto px-4 py-10">
-        <div class="bg-white shadow-md rounded-lg p-6 ">
-            <div class="flex justify-end">
-                <form action="{{ route('dashboard.import') }}" method="POST" enctype="multipart/form-data"
-                    class="mb-6 flex flex-col sm:flex-row gap-4 sm:items-center ">
-                    @csrf
-                    <input type="file" name="file" class="border border-gray-300 p-2 rounded w-full sm:w-auto">
-                    <button
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-200">Upload
-                        Excel</button>
-                </form>
-            </div>
-
-            @if (session('success'))
-                <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
-                    {{ session('success') }}
+    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 ">
+        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
+                <div class="w-full md:w-1/2">
+                    <form class="flex items-center" action="{{ route('dashboard.import') }}" method="POST"
+                        enctype='multipart/form-data'>
+                        @csrf
+                        <label for="file-upload" class="sr-only">Search</label>
+                        <div class="relative w-full">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <svg class="w-5 h-5  text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 5v9m-5 0H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2M8 9l4-5 4 5m1 8h.01" />
+                                </svg>
+                            </div>
+                            <input type="file" id="file-upload"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="upload here" required="" name="file">
+                        </div>
+                        <div class="mx-3">
+                            <button
+                                class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-white focus:outline-none bg-blue-500 rounded-lg border border-gray-200 hover:bg-blue-400 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Upload
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            @endif
-
+            </div>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
-                    <thead class="bg-gray-100">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">Divisi</th>
-                            <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">OTS Masuk</th>
-                            <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">OTS Selesai</th>
-                            <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">OTS Sisa</th>
-                            <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">Tanggal Upload</th>
-                            <th class="px-6 py-3 text-left font-medium uppercase tracking-wider">Aksi</th>
+                            <th scope="col" class="px-4 py-3 text-2xl">Divisi</th>
+                            <th scope="col" class="px-4 py-3 text-2xl ">Ots Masuk</th>
+                            <th scope="col" class="px-4 py-3 text-2xl ">Ots Selesai</th>
+                            <th scope="col" class="px-4 py-3 text-2xl ">Ots Sisa</th>
+                            <th scope="col" class="px-4 py-3 text-2xl ">Tanggal Upload</th>
+                            <th scope="col" class="px-4 py-3 text-2xl ">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-100">
-                        @foreach ($rekaps as $week => $items)
-                        {{-- {{dd($week)}} --}}
-                            <tr>
-                                <td colspan="6" class="bg-gray-50 text-gray-800 font-semibold px-6 py-3">
-                                    Minggu mulai {{ \Carbon\Carbon::parse($week)->format('d M Y') }}
+                    <tbody>
+                        @foreach ($rekaps as $items)
+                            <tr class=" dark:border-gray-700">
+                                <th scope="row"
+                                    class="border-b px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ strtoupper($items->divisi->name) }}
+                                </th>
+                                <td class="border-b px-4 py-3">{{ $items->ots_masuk }}</td>
+                                <td class="border-b px-4 py-3">{{ $items->ots_selesai }}</td>
+                                <td class="border-b px-4 py-3">{{ $items->ots_sisa }}</td>
+                                <td class="border-b px-4 py-3">{{ $items->created_at->format('d-m-Y') }}</td>
+                                <td class="border-b px-4 py-3">
+                                    <a href="{{ $items->ots_selesai == 0 ? '#' : route('detail-user.rekap-detail-user', ['id' => $items->divisi_id, 'date' => $date]) }}"
+                                        class="px-3 py-2 rounded 
+                                                        {{ $items->ots_selesai == 0 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-500 hover:text-blue-700 hover:underline' }}"
+                                        {{ $items->ots_selesai == 0 ? 'onclick=return false;' : '' }}>
+                                        Detail
+                                    </a>
                                 </td>
                             </tr>
-                            @foreach ($items as $rekap)
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-6 py-4">{{ strtoupper(($rekap->divisi->name)) ?? '-' }}</td>
-                                    <td class="px-6 py-4">{{ $rekap->ots_masuk }}</td>
-                                    <td class="px-6 py-4">{{ $rekap->ots_selesai }}</td>
-                                    <td class="px-6 py-4">{{ $rekap->ots_sisa }}</td>
-                                    <td class="px-6 py-4">{{ $rekap->created_at->format('d-m-Y') }}</td>
-                                    <td class="px-6 py-4">
-
-                                        <a href="{{ $rekap->ots_selesai== 0 ? '#' : route('detail-user.rekap-detail-user', $rekap->divisi_id) }}"
-                                            class="px-3 py-2 rounded 
-                                            {{ $rekap->ots_selesai== 0 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-500 hover:text-blue-700 hover:underline' }}"
-                                            {{ $rekap->ots_selesai== 0 ? 'onclick=return false;' : '' }}>
-                                            Detail
-                                        </a>
-
-                                    </td>
-                                </tr>
-                            @endforeach
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
+        <div class="flex justify-between my-4">
+            {{-- Tombol Prev --}}
+            @if ($prevDate)
+                <a href="{{ route('components.dashboard', ['date' => $prevDate]) }}"
+                    class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"><svg
+                        class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 12h14M5 12l4-4m-4 4 4 4" />
+                    </svg>
+                </a>
+            @else
+                <span class="px-4 py-2 bg-gray-200 rounded text-gray-400"><svg class="w-6 h-6 text-gray-800 dark:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 12h14M5 12l4-4m-4 4 4 4" />
+                    </svg>
+                </span>
+            @endif
+            @if ($nextDate)
+                <a href="{{ route('components.dashboard', ['date' => $nextDate]) }}"
+                    class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"> <svg
+                        class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                </a>
+            @else
+                <span class="px-4 py-2 bg-gray-200 rounded text-gray-400"><svg class="w-6 h-6 text-gray-800 dark:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 12H5m14 0-4 4m4-4-4-4" />
+                    </svg>
+                </span>
+            @endif
+
+            {{-- Tombol Next --}}
+
+        </div>
+        </div>
+    </section>
 @endsection
