@@ -19,5 +19,28 @@
             @yield('content', 'tidak ada konten')
         </div>
     </div>
+    <script>
+       // Ambil tombol delete dan checkbox
+       document.getElementById('select-all').addEventListener('change', function () {
+        const isChecked = this.checked;
+        document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = isChecked);
+    });
+
+    const deleteSelector = document.getElementById('deleteSelector');
+    const checkboxes = document.querySelectorAll('.row-checkbox');
+    const selectAll = document.getElementById('select-all');
+
+    function toggleDeleteButton() {
+        const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+        deleteSelector.classList.toggle('hidden', !anyChecked);
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener('change', toggleDeleteButton));
+    selectAll.addEventListener('change', function () {
+        checkboxes.forEach(cb => cb.checked = this.checked);
+        toggleDeleteButton();
+    });
+    </script>
+    
 </body>
 </html>

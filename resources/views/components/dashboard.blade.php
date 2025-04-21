@@ -5,9 +5,11 @@
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-end space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div class="w-full md:w-1/2">
+                    <div class=""></div>
                     <form class="flex items-center" action="{{ route('dashboard.import') }}" method="POST"
                         enctype='multipart/form-data'>
                         @csrf
+
                         <label for="file-upload" class="sr-only">Search</label>
                         <div class="relative w-full">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -29,12 +31,26 @@
                             </button>
                         </div>
                     </form>
+                    <form id="delete-form" action="{{ route('dashboard.delete') }}" method="POST"
+                        class="w-full md:w-auto flex items-center justify-center">
+                        @csrf
+                        @method('DELETE')
+
                 </div>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
+                            <th class="px-4 py-3 text-center text-2xl">
+                                <div id="" class="">
+                                    <div class="">
+                                        <input type="checkbox" id="select-all">
+
+                                    </div>
+                                </div>
+                            </th>
+
                             <th scope="col" class="px-4 py-3 text-2xl">Divisi</th>
                             <th scope="col" class="px-4 py-3 text-2xl ">Ots Masuk</th>
                             <th scope="col" class="px-4 py-3 text-2xl ">Ots Selesai</th>
@@ -46,15 +62,21 @@
                     <tbody>
                         @foreach ($rekaps as $items)
                             <tr class=" dark:border-gray-700">
+                                <td class="border- px-4 py-3 text-center">
+                                    <input type="checkbox" name="selected_ids[]" value="{{ $items->id }}"
+                                        class="row-checkbox">
+                                    {{-- {{dump($items->id)}} --}}
+                                </td>
+
                                 <th scope="row"
-                                    class="border-b px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="border-t px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ strtoupper($items->divisi->name) }}
                                 </th>
-                                <td class="border-b px-4 py-3">{{ $items->ots_masuk }}</td>
-                                <td class="border-b px-4 py-3">{{ $items->ots_selesai }}</td>
-                                <td class="border-b px-4 py-3">{{ $items->ots_sisa }}</td>
-                                <td class="border-b px-4 py-3">{{ $items->created_at->format('d-m-Y') }}</td>
-                                <td class="border-b px-4 py-3">
+                                <td class="border-t px-4 py-3">{{ $items->ots_masuk }}</td>
+                                <td class="border-t px-4 py-3">{{ $items->ots_selesai }}</td>
+                                <td class="border-t px-4 py-3">{{ $items->ots_sisa }}</td>
+                                <td class="border-t px-4 py-3">{{ $items->created_at->format('d-m-Y') }}</td>
+                                <td class="border-t px-4 py-3">
                                     <a href="{{ $items->ots_selesai == 0 ? '#' : route('detail-user.rekap-detail-user', ['id' => $items->divisi_id, 'date' => $date]) }}"
                                         class="px-3 py-2 rounded 
                                                         {{ $items->ots_selesai == 0 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-500 hover:text-blue-700 hover:underline' }}"
@@ -68,6 +90,17 @@
                 </table>
             </div>
         </div>
+        <div class="hidden flex justify-end pr-10" id="deleteSelector">
+            <button type="submit"
+                class=" text-sm font-medium items-center bg-white text-white px-4 py-2 rounded-lg flex hover:bg-gray-200">
+                <svg class="w-6 h-6 text-red-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z" />
+                </svg>
+            </button>
+        </div>
+    </form>
         <div class="flex justify-between my-4">
             {{-- Tombol Prev --}}
             @if ($prevDate)
@@ -80,8 +113,9 @@
                     </svg>
                 </a>
             @else
-                <span class="px-4 py-2 bg-gray-200 rounded text-gray-400"><svg class="w-6 h-6 text-gray-800 dark:text-white"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                <span class="px-4 py-2 bg-gray-200 rounded text-gray-400"><svg
+                        class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                         viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M5 12h14M5 12l4-4m-4 4 4 4" />
@@ -91,15 +125,17 @@
             @if ($nextDate)
                 <a href="{{ route('components.dashboard', ['date' => $nextDate]) }}"
                     class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"> <svg
-                        class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                        viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 12H5m14 0-4 4m4-4-4-4" />
                     </svg>
                 </a>
             @else
-                <span class="px-4 py-2 bg-gray-200 rounded text-gray-400"><svg class="w-6 h-6 text-gray-800 dark:text-white"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                <span class="px-4 py-2 bg-gray-200 rounded text-gray-400"><svg
+                        class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                         viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 12H5m14 0-4 4m4-4-4-4" />

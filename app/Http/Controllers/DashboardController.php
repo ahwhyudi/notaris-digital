@@ -127,22 +127,6 @@ class DashboardController extends Controller
             'divisi'
         ]));  
     }
-    // $divisi = Divisi::where('id', $id)->firstOrFail();
-    // $date = $request->get('date', now()->format('Y-m-d'));
-    // // Ambil semua rekap user untuk divisi ini dan kelompokkan per minggu
-    // $rekapUser = RekapUser::with('user')
-    //     ->where('divisi_id', $divisi->id)
-    //     ->whereDate('created_at', $date)
-    //     ->get()
-    //     ->groupBy(function ($item) {
-    //         return Carbon::parse($item->created_at)->startOfWeek()->format('Y-m-d');
-    //     });
-    // return view('detail-user.rekap-detail-user', [
-    //     'divisi' => $divisi,
-    //     'rekapUsers' => $rekapUser,
-    //     'date' => $date
-    // ]);
-
     public function import(Request $request)
     {
         $request->validate([
@@ -152,5 +136,14 @@ class DashboardController extends Controller
         Excel::import(new RekapImport, $request->file('file'));
 
         return back()->with('success', 'Data berhasil diimport');
+    }
+
+    public function delete(Request $request){
+        $ids = $request->input('selected_ids', []);
+
+    if (!empty($ids)) {
+        RekapDivisi::whereIn('id', $ids)->delete();
+    }
+    return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }
