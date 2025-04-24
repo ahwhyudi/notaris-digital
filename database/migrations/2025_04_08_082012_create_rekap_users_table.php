@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('rekap_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('divisi_id')->constrained()->onDelete('cascade');
             $table->integer('ots_selesai');
             $table->timestamps();

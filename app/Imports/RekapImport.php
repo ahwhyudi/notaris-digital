@@ -22,6 +22,7 @@ class RekapImport implements WithMultipleSheets
                     foreach ($rows->skip(1) as $row) {
                         $divisi_name = $row[0];
                         $ots_masuk = $row[1];
+                        $jbd_baru = $row[2];
                         $tanggal = now()->toDateString();
 
                         $divisi = Divisi::where('name', $divisi_name)->first();
@@ -39,6 +40,7 @@ class RekapImport implements WithMultipleSheets
                                 'ots_masuk' => $ots_masuk,
                                 'ots_selesai' => 0,
                                 'ots_sisa' => $ots_masuk,
+                                'jbd_baru'=>$jbd_baru,
                                 'created_at' => now(),
                             ]
                         );

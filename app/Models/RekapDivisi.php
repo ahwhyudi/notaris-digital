@@ -10,11 +10,11 @@ class RekapDivisi extends Model
     use HasFactory;
 
     protected $fillable = [
-        'divisi_id',
-        // 'user_id',  
+        'divisi_id', 
         'ots_masuk',
         'ots_selesai',
-        'ots_sisa'
+        'ots_sisa',
+        'jbd_baru'
     ];
 
     public function divisi(){
@@ -23,5 +23,9 @@ class RekapDivisi extends Model
 
     public function user(){
         return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function rekapUsers(){
+        return $this->hasMany(RekapUser::class, 'divisi_id');
     }
 }

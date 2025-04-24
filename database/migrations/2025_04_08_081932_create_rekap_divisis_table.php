@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('rekap_divisis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('divisi_id')->constrained()->onDelete('cascade');
+            $table->foreignId('divisi_id')->constrained()->nullable()->onDelete('cascade');
             // $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->integer('jbd_baru');
             $table->integer('ots_masuk');
             $table->integer('ots_selesai');
             $table->integer('ots_sisa');

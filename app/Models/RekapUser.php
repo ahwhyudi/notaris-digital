@@ -12,7 +12,8 @@ class RekapUser extends Model
     protected $fillable = [
         'user_id',
         'divisi_id',
-        'ots_selesai'
+        'ots_selesai',
+        'rekap_divisi_id'
     ];
 
     public function user(){

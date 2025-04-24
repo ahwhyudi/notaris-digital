@@ -21,14 +21,14 @@ class DashboardController extends Controller
             ->map(fn($item) => $item->format('Y-m-d'))
             ->unique()
             ->values();
-
-        if ($allDates->isEmpty()) {
-            return view('components.index', [
-                'rekaps' => collect(),
-                'date' => null,
-                'prevDate' => null,
-                'nextDate' => null
-            ]);
+            
+            if ($allDates->isEmpty()) {
+                return view('components.index', [
+                    'rekaps' => collect(),
+                    'date'=>null,
+                    'prevDate'=>null,
+                    'nextDate'=>null
+                ]);
         }
 
         $requestDate = $request->get('date');
@@ -61,7 +61,7 @@ class DashboardController extends Controller
         ->values();
 
     if ($allDates->isEmpty()) {
-        return view('components.index', [
+        return view('components.dashboard', [
             'rekaps' => collect(),
             'date' => null,
             'prevDate' => null,
@@ -142,8 +142,14 @@ class DashboardController extends Controller
         $ids = $request->input('selected_ids', []);
 
     if (!empty($ids)) {
-        RekapDivisi::whereIn('id', $ids)->delete();
-    }
+       $rekapDivisis= RekapDivisi::whereIn('id', $ids)->get();
+
+        foreach ($rekapDivisis as $divisi) {
+            // Hapus rekap user yang terkait
+            $divisi->rekapUsers()->delete();
+            // Hapus rekap divisinya
+            $divisi->delete();
+    }}
     return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }
