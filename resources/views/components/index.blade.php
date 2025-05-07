@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('index-layout')
 @section('content')
     <section class="bg-white dark:bg-gray-900">
         <div class="py-4 px-4 mx-auto max-w-screen-xl sm:py-6 lg:px-6">
@@ -7,8 +7,8 @@
                     <a href="{{ route('detail-user.rekap-detail-user', ['id'=>$rekap->divisi_id, 'date'=>$date]) }}">
                         <div
                             class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 p-5">
-                            <h3 class="mb-2 text-xl font-bold dark:text-white">{{ strtoupper($rekap->divisi->name) }}
-                            </h3>
+                                <h3 class="mb-2 text-xl font-bold dark:text-white">{{ strtoupper($rekap->divisi->name) }}
+                                </h3>
                             {{-- <p class="text-gray-500 dark:text-gray-400">OTS SEBELUMNYA : {{ $rekap->ots_masuk }}</p> --}}
                             <p class="text-gray-500 dark:text-gray-400">JBD MASUK : {{$rekap->jbd_baru}}</p>
                             <p class="text-gray-500 dark:text-gray-400">JBD SELESAI : {{ $rekap->ots_selesai }}</p>

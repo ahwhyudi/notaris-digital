@@ -14,43 +14,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request)
-    {
-        $allDates = RekapDivisi::orderByDesc('created_at')
-            ->pluck('created_at')
-            ->map(fn($item) => $item->format('Y-m-d'))
-            ->unique()
-            ->values();
-            
-            if ($allDates->isEmpty()) {
-                return view('components.index', [
-                    'rekaps' => collect(),
-                    'date'=>null,
-                    'prevDate'=>null,
-                    'nextDate'=>null
-                ]);
-        }
-
-        $requestDate = $request->get('date');
-        $date = in_array($requestDate, $allDates->toArray()) ? $requestDate : $allDates->first();
-
-        $curretIndex = $allDates->search($date);
-        $prevDate = $allDates->get($curretIndex - 1);
-        $nextDate = $allDates->get($curretIndex + 1);
-
-        $rekaps = RekapDivisi::with('divisi')
-            ->whereDate('created_at', $date)
-            ->get();
-
-        return view('components.index', compact(
-            [
-                'rekaps',
-                'date',
-                'prevDate',
-                'nextDate'
-            ]
-        ));
-    }
+    
     public function report(Request $request)
     {
 
@@ -61,7 +25,7 @@ class DashboardController extends Controller
         ->values();
 
     if ($allDates->isEmpty()) {
-        return view('components.dashboard', [
+        return view('components.admin.dashboard', [
             'rekaps' => collect(),
             'date' => null,
             'prevDate' => null,
@@ -80,7 +44,7 @@ class DashboardController extends Controller
         ->whereDate('created_at', $date)
         ->get();
 
-    return view('components.dashboard', compact(
+    return view('components.admin.dashboard', compact(
         [
             'rekaps',
             'date',

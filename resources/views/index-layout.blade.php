@@ -15,10 +15,10 @@
 <body>
 
 
-    @include('components.admin.sidebar')
-<div class="ml-64">
+    @include('components.navbar')
+
     @yield('content', 'tidak ada konten')
-</div>
+
 
     <script>
         // Ambil tombol delete dan checkbox
