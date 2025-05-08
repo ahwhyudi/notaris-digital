@@ -18,7 +18,7 @@
                         </div>
                         <div class="text-center">
                             <img class="w-24 h-24 rounded-full object-cover mx-auto mb-2"
-                                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                                src="{{asset('img/user.png')}}"
                                 alt="Bonnie Avatar">
                             <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Terbaik</p>
                         </div>

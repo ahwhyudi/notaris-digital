@@ -52,6 +52,7 @@
                             <th scope="col" class="px-4 py-3 text-2xl ">Ots Masuk</th>
                             <th scope="col" class="px-4 py-3 text-2xl ">Ots Selesai</th>
                             <th scope="col" class="px-4 py-3 text-2xl ">Ots Sisa</th>
+                            <th scope="col" class="px-4 py-3 text-2xl ">Jbd baru</th>
                             <th scope="col" class="px-4 py-3 text-2xl ">Tanggal Upload</th>
                             <th scope="col" class="px-4 py-3 text-2xl ">Aksi</th>
                         </tr>
@@ -72,6 +73,7 @@
                                 <td class="border-t px-4 py-3">{{ $items->ots_masuk }}</td>
                                 <td class="border-t px-4 py-3">{{ $items->ots_selesai }}</td>
                                 <td class="border-t px-4 py-3">{{ $items->ots_sisa }}</td>
+                                <td class="border-t px-4 py-3">{{ $items->jbd_baru }}</td>
                                 <td class="border-t px-4 py-3">{{ $items->created_at->format('d-m-Y') }}</td>
                                 <td class="border-t px-4 py-3">
                                     <a href="{{ $items->ots_selesai == 0 ? '#' : route('detail-user.rekap-detail-user', ['id' => $items->divisi_id, 'date' => $date]) }}"

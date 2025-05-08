@@ -7,7 +7,7 @@
                 @foreach ($rekapUsers as $rekap)
                         <div class="text-center text-gray-500 dark:text-gray-400">
                             <img class="mx-auto mb-4 w-36 h-36 rounded-full"
-                                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                                src="{{asset('img/user.png')}}"
                                 alt="Bonnie Avatar">
                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 <a href="#">{{ strtoupper($rekap->user->name )}}</a>
