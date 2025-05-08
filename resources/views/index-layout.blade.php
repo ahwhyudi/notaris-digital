@@ -14,11 +14,8 @@
 
 <body>
 
-
     @include('components.navbar')
-
     @yield('content', 'tidak ada konten')
-
 
     <script>
         // Ambil tombol delete dan checkbox

@@ -4,19 +4,25 @@
         <div class="py-4 px-4 mx-auto max-w-screen-xl sm:py-6 lg:px-6">
             <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
                 @foreach ($rekaps as $rekap)
-                    <a href="{{ route('detail-user.rekap-detail-user', ['id'=>$rekap->divisi_id, 'date'=>$date]) }}">
-                        <div
-                            class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 p-5">
-                                <h3 class="mb-2 text-xl font-bold dark:text-white">{{ strtoupper($rekap->divisi->name) }}
-                                </h3>
+                    <div
+                        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 p-5 flex items-center gap-4">
+                        <div class="flex-1">
+                            <h3 class="mb-2 text-xl font-bold dark:text-white">{{ strtoupper($rekap->divisi->name) }}
+                            </h3>
                             {{-- <p class="text-gray-500 dark:text-gray-400">OTS SEBELUMNYA : {{ $rekap->ots_masuk }}</p> --}}
-                            <p class="text-gray-500 dark:text-gray-400">JBD MASUK : {{$rekap->jbd_baru}}</p>
+                            <p class="text-gray-500 dark:text-gray-400">JBD MASUK : {{ $rekap->jbd_baru }}</p>
                             <p class="text-gray-500 dark:text-gray-400">JBD SELESAI : {{ $rekap->ots_selesai }}</p>
                             <p class="text-gray-500 dark:text-gray-400">OTS : {{ $rekap->ots_sisa }}</p>
                             <p class="text-gray-500 dark:text-gray-400">TANGGAL :
                                 {{ $rekap->created_at->format('d-m-Y') }}</p>
                         </div>
-                    </a>
+                        <div class="text-center">
+                            <img class="w-24 h-24 rounded-full object-cover mx-auto mb-2"
+                                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                                alt="Bonnie Avatar">
+                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Terbaik</p>
+                        </div>
+                    </div>
                 @endforeach
             </div>
             <div class="flex justify-between my-4">
