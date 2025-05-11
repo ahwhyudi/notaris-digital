@@ -2,10 +2,10 @@
 @section('content')
     <section class="bg-white dark:bg-gray-900">
         <div class="py-4 px-4 mx-auto max-w-screen-xl sm:py-6 lg:px-6">
-            <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+            <div class="space-y-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
                 @foreach ($rekaps as $rekap)
                     <div
-                        class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 p-5 flex items-center gap-4">
+                        class=" border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 p-5 flex items-center gap-4">
                         <div class="flex-1">
                             <h3 class="mb-2 text-xl font-bold dark:text-white">{{ strtoupper($rekap->divisi->name) }}
                             </h3>
@@ -17,7 +17,7 @@
                                 {{ $rekap->created_at->format('d-m-Y') }}</p>
                         </div>
                         <div class="text-center">
-                            <img class="w-24 h-24 rounded-full object-cover mx-auto mb-2"
+                            <img class="w-32 h-32 rounded-full object-cover mx-auto mb-2"
                                 src="{{asset('img/user.png')}}"
                                 alt="Bonnie Avatar">
                             <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Terbaik</p>

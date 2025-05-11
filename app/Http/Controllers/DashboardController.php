@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class DashboardController extends Controller
 {
     
-    public function report(Request $request)
+    public function dashboard(Request $request)
     {
 
          $allDates = RekapDivisi::orderByDesc('created_at')
